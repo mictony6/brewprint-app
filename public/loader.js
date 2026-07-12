@@ -1,6 +1,6 @@
 (function () {
     var ORIGIN = 'https://brewprint-app.pages.dev';
-    var ENTRY = 'src/main.tsx';
+    var ENTRY = 'index.html';
     var MOUNT_ID = 'brewprint-root';
 
     // Make sure the mount div exists (in case the snippet only includes this script)
