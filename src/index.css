@@ -10,3 +10,37 @@
 #brewprint-root *::after {
   box-sizing: inherit;
 }
+
+
+
+#brewprint-root button {
+  display: inline-block;
+  padding: 0.9em 2em;
+  border: none;
+  border-radius: 2px;
+  background-color: #26221f;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+#brewprint-root button:hover {
+  background-color: #3a342f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#brewprint-root button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+#brewprint-root button:focus-visible {
+  outline: 2px solid #26221f;
+  outline-offset: 3px;
+}
