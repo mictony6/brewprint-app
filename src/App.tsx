@@ -8,7 +8,7 @@ function App() {
   return (
     <>
      <div className="brewprint-hello">
-      <h2>🔥 Brewprint lives here</h2>
+      <h2>Welcome to Brewprint</h2>
       <button onClick={() => setCount(c => c + 1)}>
         Clicked {count} times
       </button>
