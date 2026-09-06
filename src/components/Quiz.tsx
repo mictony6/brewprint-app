@@ -1,24 +1,20 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import '../styles/Quiz.css'
 import QuizIntroCard from './QuizIntroCard'
-import questions from "../data/questions.json"
+// import questions from "../data/questions.json"
 import careers from "../data/careers.json"
 
-enum quizState{
-  INTRO,
-  STARTED,
-  RESULTS
-}
+type quizState = "INTRO" | "STARTED" | "RESULTS"
 
-let careerList : Array<string> = []
+// let careerList : Array<string> = []
 for (const careerName in careers){
   console.log(careerName)
 }
 
 function Quiz() {
-  let [quizCurrentState, setQuizCurrentState]  = useState(quizState.INTRO)
-  let [questionIndex, setQuestionIndex] = useState(0)
-  let [scores, setScores] = useState({})
+  // let [quizCurrentState, setQuizCurrentState]  = useState(quizState.INTRO)
+  // let [questionIndex, setQuestionIndex] = useState(0)
+  // let [scores, setScores] = useState({})
 
 
   function onStartButtonClick(){
