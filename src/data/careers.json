@@ -1,0 +1,27 @@
+{
+  "data-analyst": {
+    "name": "Data Analyst",
+    "slug": "data-analyst",
+    "blurb": "Based on your answers, you seem to enjoy finding patterns, thinking in systems, and figuring out why something doesn't add up. Data Analysts turn raw numbers into decisions other people can act on."
+  },
+  "social-media-manager": {
+    "name": "Social Media Manager",
+    "slug": "social-media-manager",
+    "blurb": "Based on your answers, you seem to enjoy variety, staying close to people, and creating things that get a reaction. Social Media Managers juggle voice, timing, and audience in real time."
+  },
+  "graphic-designer": {
+    "name": "Graphic Designer",
+    "slug": "graphic-designer",
+    "blurb": "Based on your answers, you seem to enjoy visual communication, creativity, and turning ideas into something people can immediately understand."
+  },
+  "administrative-virtual-assistant": {
+    "name": "Administrative Virtual Assistant",
+    "slug": "administrative-virtual-assistant",
+    "blurb": "Based on your answers, you seem to enjoy structure, reliability, and being the person things run through. Administrative VAs keep other people's work lives from falling apart."
+  },
+  "content-writer": {
+    "name": "Content Writer",
+    "slug": "content-writer",
+    "blurb": "Based on your answers, you seem to enjoy clarity, curiosity, and turning ideas into words people actually want to read."
+  }
+}
