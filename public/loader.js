@@ -10,6 +10,24 @@
         document.currentScript.parentNode.insertBefore(mount, document.currentScript);
     }
 
+    // Font stylesheet isn't part of the Vite build/manifest, so inject it
+    // the same way index.html does, and as early as possible.
+    var preconnect1 = document.createElement('link');
+    preconnect1.rel = 'preconnect';
+    preconnect1.href = 'https://fonts.googleapis.com';
+    document.head.appendChild(preconnect1);
+
+    var preconnect2 = document.createElement('link');
+    preconnect2.rel = 'preconnect';
+    preconnect2.href = 'https://fonts.gstatic.com';
+    preconnect2.crossOrigin = 'anonymous';
+    document.head.appendChild(preconnect2);
+
+    var fontStylesheet = document.createElement('link');
+    fontStylesheet.rel = 'stylesheet';
+    fontStylesheet.href = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap';
+    document.head.appendChild(fontStylesheet);
+
     // Fetch the manifest fresh every time
     fetch(ORIGIN + '/.vite/manifest.json', { cache: 'no-store' })
         .then(function (res) {
