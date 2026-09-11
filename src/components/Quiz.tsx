@@ -79,6 +79,11 @@ function Quiz() {
     />
   }
 
+  function restartQuiz(){
+    setQuizCurrentState(QuizState.INTRO)
+    setQuestionIndex(0)
+  }
+
   function renderQuizStep(){
     switch (quizCurrentState){
       case QuizState.INTRO:
@@ -86,7 +91,7 @@ function Quiz() {
       case QuizState.STARTED:
         return renderQuestions()
       case QuizState.RESULTS:
-        return <QuizResultsCard onBackClick={() =>{setQuizCurrentState(QuizState.INTRO)}} />
+        return <QuizResultsCard onBackClick={restartQuiz} />
     }
   }
 
