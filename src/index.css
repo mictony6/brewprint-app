@@ -15,6 +15,11 @@ to zero */
   src: url(./assets/fonts/LoRes/LoRes9PlusOTNarrow-Bold.ttf);
 }
 
+#brewprint-root button,
+#brewprint-root .option-item {
+  -webkit-tap-highlight-color: transparent;
+}
+
 #brewprint-root {
   --body-bg: #f8f4ee;
   font-family:  "Fredoka", system-ui, sans-serif;
