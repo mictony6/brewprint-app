@@ -170,6 +170,7 @@
   border: transparent solid 2px;
 
   animation: option-slide-in 0.4s ease backwards;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
 
 }
 
