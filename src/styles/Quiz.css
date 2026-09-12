@@ -1,6 +1,6 @@
 .quiz-card {
   background: #f7efe7;
-  border-radius: 2rem 1rem;
+  border-radius: 2rem;
   padding: clamp(1rem, 4vw, 1.5rem);
   display: flex;
   flex-direction: column;
@@ -8,7 +8,9 @@
   align-items: center;
   width: min(700px, 100%);
   margin: 0 auto;
-  box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+  box-shadow:   inset 0px 5px 3px 0px rgb(255 255 255), 
+  0px 2px 3px 0px #a85500e3
+  ;
   overflow: hidden;
   min-height: 600px;
 
@@ -151,21 +153,35 @@
   align-items: center;
   align-self: stretch;
   border-radius: 1rem;
-  background: #D0D0D0;
+
+  background: #e8e8e882;
+
   min-height: clamp(5rem, 12vw, 8rem);
   cursor: pointer;
+
+  box-shadow: 
+  inset 0px 5px 3px 0px rgb(255 255 255), 
+  0px 2px 3px 0px #a85500e3
+  ;
+  border: transparent solid 2px;
 
 }
 
 .option-item:hover{
-  background: #d39367;
+  background: #d8eae582;
   transform: scale(101%);
+  box-shadow: 
+  inset 0px 5px 3px 0px rgb(255 255 255), 
+  0px 2px 3px 0px #a85500e3
+  ;
+  border: white solid 2px;
 
 }
 
 .option-item:active{
   user-select: none;
   transform: scale(99%);
+  transform: translate(0px, 2px);
 
 
 }

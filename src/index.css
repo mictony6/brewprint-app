@@ -28,6 +28,7 @@ to zero */
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  min-width: 320px;
 }
 
 
@@ -85,6 +86,8 @@ to zero */
   font: inherit;
   position: relative;
   overflow: hidden;
+  /* outline: white dashed 2px;
+  outline-offset: -4px; */
 }
 
 #brewprint-root .btn-primary .droplet {

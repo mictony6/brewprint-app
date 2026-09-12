@@ -23,7 +23,7 @@ function Button({ variant = 'primary', labelClassName, children, className, onCl
     type="button"
     onClick={(e) => {
       handleDroplet(e)
-      onClick?.(e)
+      setTimeout(() => onClick?.(e), 200)
     }}
     {...props}
     >
