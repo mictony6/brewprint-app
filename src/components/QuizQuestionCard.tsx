@@ -7,12 +7,12 @@ type OptionListItemProps = {
 
 function OptionListItem ({option, ...liProps } : OptionListItemProps){
     return(
-    <li className="option-item" key={liProps.key}>
+    <li className="option-item" {...liProps}>
         <div>{option.label}</div> 
     </li>
     )
 }
-export default function QuizQuestionCard({question, onOptionSelect = ()=>{}, onNextPressed = () =>{}} : QuestionCardProps){
+export default function QuizQuestionCard({question, onOptionSelect, OnBack} : QuestionCardProps){
     
     if (!question){
         return(
@@ -22,7 +22,6 @@ export default function QuizQuestionCard({question, onOptionSelect = ()=>{}, onN
         )
     }
     return(
-        <>
         <div className="quiz-card">
             <div className="question-card">
                 <div className="question-card-header">
@@ -33,24 +32,23 @@ export default function QuizQuestionCard({question, onOptionSelect = ()=>{}, onN
                 <div className="question-card-content">
                     <ul className="option-list">
                         {question.options.map((o) => (
-                                <OptionListItem key ={o.label} option={o} />
+                                <OptionListItem key ={o.label} option={o} onClick={()=>{onOptionSelect(o.label)}}/>
                             ))}
 
                     </ul>
                 </div>
                 <div className="question-card-footer">
-                    <Button onClick={onNextPressed}>Next</Button>
+                    <Button onClick={OnBack}>Back</Button>
                 </div>
             </div>
         </div>
-        </>
     )
 }
 
 type QuestionCardProps = {
     question : Question | undefined,
-    onOptionSelect :()=> void
-    onNextPressed : () => void
+    onOptionSelect :(key:string)=> void
+    OnBack : () => void
 
 }
 

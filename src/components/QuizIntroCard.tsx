@@ -7,7 +7,6 @@ function QuizIntroCard({startButtonHandler  = () => {}}){
 
 
     return (
-    <>
     <div className="quiz-card">
           <div className="quiz-content">
             <div className="quiz-intro">
@@ -28,7 +27,6 @@ function QuizIntroCard({startButtonHandler  = () => {}}){
             />
           </div>
         </div>
-    </>
     )
 }
 

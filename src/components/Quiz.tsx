@@ -49,22 +49,35 @@ function Quiz() {
     setQuizCurrentState(QuizState.STARTED)
   }
 
-  function onNext(){
+  function selectOption(key:string){
+    nextQuestion()
+  }
+
+  function nextQuestion(){
+    
     const nextIndex = questionIndex + 1
     if (nextIndex >= typedQuestions.length){
       setQuizCurrentState(QuizState.RESULTS)
       return
     }
-    setQuestionIndex(questionIndex + 1)
+    setQuestionIndex(nextIndex)
   }
-    
+  
+  function lastQuestion(){
+      const lastIndex = questionIndex - 1
+    if (lastIndex < 0){
+      setQuizCurrentState(QuizState.INTRO)
+      return
+    }
+    setQuestionIndex(lastIndex)
+  }
   
   function renderQuestions() {
     const question = typedQuestions[questionIndex]
     return <QuizQuestionCard 
     question={question} 
-    onOptionSelect={() => { } } 
-    onNextPressed={onNext}
+    onOptionSelect={selectOption} 
+    OnBack={lastQuestion}
     />
   }
 
@@ -85,13 +98,9 @@ function Quiz() {
   }
 
   return (
-    <>
-     <div className="brewprint-hello">
       <section className='quiz-section'>
         {renderQuizStep()}
       </section>
-    </div>
-    </>
   )
 
 }
