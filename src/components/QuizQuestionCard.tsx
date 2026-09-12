@@ -33,7 +33,7 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
                     <ul className="option-list">
                         {question.options.map((o) => (
                                 <OptionListItem key ={o.label} option={o} onClick={()=>{
-                                    setTimeout(() => onOptionSelect(o.label), 180)
+                                    setTimeout(() => onOptionSelect(o.label), 250)
                                 }}/>
                             ))}
 
