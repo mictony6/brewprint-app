@@ -120,7 +120,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   width: 100%;
   /* border: #a5640224 solid 2px;
