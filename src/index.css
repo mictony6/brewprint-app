@@ -65,6 +65,7 @@ to zero */
   background-color: #3a342f;
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  
 }
 
 #brewprint-root button:active {
@@ -86,8 +87,12 @@ to zero */
   font: inherit;
   position: relative;
   overflow: hidden;
-  /* outline: white dashed 2px;
-  outline-offset: -4px; */
+  outline: white dashed 2px;
+  outline-offset: -4px;
+  box-shadow: rgba(1, 1, 1, 0.521) 0px 1px 4px 0px ,
+  inset rgb(244, 243, 242) 0px 0px 2px 2px;
+
+  
 }
 
 #brewprint-root .btn-primary .droplet {
@@ -97,6 +102,20 @@ to zero */
   will-change: transform, opacity;
   animation: droplet-ripple 0.6s cubic-bezier(0, 0, 0.2, 1);
   pointer-events: none;
+}
+
+#leather-texture {
+  background-repeat: repeat;
+  background-image: url(./assets/leather.jpg);
+  background-size: 128px;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  mix-blend-mode: soft-light;
+  opacity: .25;
 }
 
 @keyframes droplet-ripple {

@@ -28,6 +28,8 @@ function Button({ variant = 'primary', labelClassName, children, className, onCl
     {...props}
     >
       <span className={labelClassName}>{children}</span>
+      <span id="leather-texture"></span>
+
     </button>
   )
 }
