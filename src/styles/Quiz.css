@@ -84,3 +84,57 @@
   filter: brightness(75%);
   border-radius: 1rem;
 }
+
+.question-card{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.question-card-header {
+  align-self: stretch;
+  color: #000;
+  font-family: "Fredoka", sans-serif;
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  font-style: normal;
+  font-weight: bold;
+  line-height: 100%; 
+}
+
+.question-card-content {
+
+}
+
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0;
+}
+.option-item {
+  list-style: none;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 1rem;
+  background: #D0D0D0;
+
+}
+
+.option-item div{
+  color: #6D4100;
+  text-align: center;
+  font-family: "Fredoka", system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 100%; /* 24px */
+}

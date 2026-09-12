@@ -19,7 +19,6 @@ to zero */
   --body-bg: #f8f4ee;
   font-family:  "Fredoka", system-ui, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
   color: #4B2E1F;
   background: var(--body-bg);
   box-sizing: border-box;

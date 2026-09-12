@@ -5,19 +5,8 @@ import questions from "../data/questions.json"
 import careers from "../data/careers.json"
 import QuizQuestionCard from './QuizQuestionCard'
 import QuizResultsCard from './QuizResultsCard'
+import type { Question } from '../types/quiz'
 
-interface QuestionOption {
-  label: string
-  icon: string
-  scores: { [career: string]: number }
-}
-
-interface Question {
-  id: string
-  type: string
-  text: string
-  options: QuestionOption[]
-}
 
 const typedQuestions = questions as Question[]
 
@@ -73,7 +62,7 @@ function Quiz() {
   function renderQuestions() {
     const question = typedQuestions[questionIndex]
     return <QuizQuestionCard 
-    question={question.text} 
+    question={question} 
     onOptionSelect={() => { } } 
     onNextPressed={onNext}
     />
