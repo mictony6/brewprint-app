@@ -109,7 +109,7 @@ function Quiz() {
     if (!results) return null
     const topResult:[string, number] = getTopResult(results, maxScores)
     const careerResult = typedCareers.get(topResult[0])!
-    return <QuizResultsCard career ={careerResult} onBackClick={restartQuiz} />
+    return <QuizResultsCard career ={careerResult} onRestart={restartQuiz} />
   }
 
   function renderQuizStep(){

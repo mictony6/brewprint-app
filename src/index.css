@@ -47,6 +47,19 @@ to zero */
   min-width: 320px;
 }
 
+/* 1. Reset margins for all standard typography tags */
+#brewprint-root h1,
+#brewprint-root h2,
+#brewprint-root h3,
+#brewprint-root h4,
+#brewprint-root h5,
+#brewprint-root h6,
+#brewprint-root p,
+#brewprint-root figure,
+#brewprint-root blockquote {
+  margin: 0;
+}
+
 
 /* #ebug */
 /* #brewprint-root *{

@@ -16,13 +16,13 @@ function QuizIntroCard({startButtonHandler  = () => {}}){
               />
             </div>
             <div className="quiz-intro">
-              <div className="quiz-title">
+              <h1 className="quiz-title">
                 Find the digital career built for you.
-              </div>
-              <div className="quiz-subtitle">
+              </h1>
+              <p className="quiz-subtitle">
                 A short, thoughtful quiz — then a starter kit to help you begin. About 5
                 minutes, 22 questions.
-              </div>
+              </p>
             </div>
             <Button className="quiz-start-button" labelClassName="quiz-start-button-label" onClick={startButtonHandler}>
               Start Quiz

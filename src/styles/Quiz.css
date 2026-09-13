@@ -218,6 +218,18 @@
 
 }
 
+.result-career-name{
+  font-size: clamp(2.5rem, 6vw, 3rem);
+  line-height: 100%;
+  font-weight: bold;
+  align-self: stretch;
+}
+
+.result-blurb{
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  align-self: stretch;
+}
+
 
 
 @keyframes option-slide-in {

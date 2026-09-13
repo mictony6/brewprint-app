@@ -4,11 +4,17 @@
     var MOUNT_ID = 'brewprint-root';
 
     // Make sure the mount div exists (in case the snippet only includes this script)
-    if (!document.getElementById(MOUNT_ID)) {
-        var mount = document.createElement('div');
+    var mount = document.getElementById(MOUNT_ID);
+    if (!mount) {
+        mount = document.createElement('div');
         mount.id = MOUNT_ID;
         document.currentScript.parentNode.insertBefore(mount, document.currentScript);
     }
+
+    // Reserve the app's height synchronously so elements after it (e.g. the
+    // Webflow footer) don't render into the empty div's spot and then jump
+    // once the real CSS/JS load asynchronously below.
+    mount.style.minHeight = '100dvh';
 
     // External <link> tags (fonts, etc.) live only in index.html's <head>,
     // so they're never part of the Vite manifest. The build extracts them
