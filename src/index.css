@@ -14,6 +14,7 @@ to zero */
 @font-face {
   font-family: "LoRes9PlusOt-NarrowBold";
   src: url(./assets/fonts/LoRes/LoRes9PlusOTNarrow-Bold.ttf);
+  font-display: swap;
 }
 
 #brewprint-root button,
@@ -110,7 +111,8 @@ to zero */
   
 }
 
-#brewprint-root .btn-primary .droplet {
+#brewprint-root .btn-primary .droplet,
+#brewprint-root .btn-secondary .droplet {
   position: absolute;
   border-radius: 50%;
   background: rgba(248, 244, 238, 0.55);
@@ -118,6 +120,22 @@ to zero */
   animation: droplet-ripple 0.6s cubic-bezier(0, 0, 0.2, 1);
   pointer-events: none;
 }
+
+#brewprint-root .btn-secondary {
+  background: #846f2c;
+  color: var(--body-bg);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font: inherit;
+  position: relative;
+  overflow: hidden;
+  outline: white dashed 2px;
+  outline-offset: -4px;
+  box-shadow: rgba(1, 1, 1, 0.521) 0px 1px 4px 0px ,
+  inset rgb(244, 243, 242) 0px 0px 2px 2px;
+}
+
 
 #leather-texture {
   background-repeat: repeat;

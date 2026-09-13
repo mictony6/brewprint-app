@@ -15,11 +15,10 @@ function OptionListItem ({option, ...liProps } : OptionListItemProps){
 }
 
 
-export default function QuizQuestionCard({question, onOptionSelect, OnBack} : QuestionCardProps){
+export default function QuizQuestionCard({question, onOptionSelect, OnBack , onRestart} : QuestionCardProps){
     const isTransitiong = useRef(false)
 
     function optionSelectHandler(label:string){
-        console.log(isTransitiong.current)
         if (isTransitiong.current) return
         isTransitiong.current = true
         navigator.vibrate(4)
@@ -56,6 +55,7 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
                 </div>
                 <div className="question-card-footer">
                     <Button onClick={OnBack} labelClassName="quiz-start-button-label">Back</Button>
+                    <Button onClick={onRestart} variant="secondary" labelClassName="quiz-restart-button-label">Restart</Button>
                 </div>
             </div>
         </div>
@@ -65,7 +65,8 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
 type QuestionCardProps = {
     question : Question | undefined,
     onOptionSelect :(key:string)=> void
-    OnBack : () => void
+    OnBack : () => void,
+    onRestart : () => void
 
 }
 

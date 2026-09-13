@@ -68,8 +68,14 @@
 }
 .quiz-start-button-label {
   color: var(--body-bg);
-  text-align: center;
-  text-transform: none;
+  letter-spacing: normal;
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 3vw, 24px);
+  line-height: 100%;
+  font-weight: 400;
+}
+
+.quiz-restart-button-label{
   letter-spacing: normal;
   font-family: var(--font-heading);
   font-size: clamp(18px, 3vw, 24px);
@@ -80,7 +86,7 @@
 
 .quiz-hero-wrapper{
   overflow: hidden;
-  flex: 1;
+  flex: .5;
   min-height: 180px;
   align-self: stretch;
   border-radius: 1rem;
@@ -141,7 +147,16 @@
 
 .question-card-footer {
   margin-top: auto;
-  align-self: flex-start;
+  align-self: center;
+  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 2rem;
+}
+
+.question-card-footer .btn-primary{
+  min-width: 5rem;
 }
 
 

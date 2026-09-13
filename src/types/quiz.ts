@@ -10,3 +10,9 @@ export interface Question {
   text: string
   options: QuestionOption[]
 }
+
+export interface Career {
+    name:string,
+    slug:string,
+    blurb:string
+}
