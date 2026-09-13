@@ -1,6 +1,7 @@
 body{
   margin: 0;
   padding: 0;
+  scrollbar-width: thin;
 }
 /* 
 do not modify above css as this will affect 
@@ -24,6 +25,7 @@ to zero */
   --body-bg: #f8f4ee;
   --font-body: "Fredoka", system-ui, sans-serif;
   --font-heading: "LoRes9PlusOt-NarrowBold", sans-serif;
+  --shadow-embossed: inset 0px 5px 3px 0px rgb(255 255 255), 0px 2px 3px 0px #a85500e3;
   font-family:  var(--font-body);
   font-size: 16px;
   color: #4B2E1F;

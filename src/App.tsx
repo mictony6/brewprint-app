@@ -7,9 +7,7 @@ function App() {
   return (
     <>
      <div className="brewprint-hello">
-      <section className='quiz-section'>
-        <Quiz/>
-      </section>
+      <Quiz/>
     </div>
     </>
   )

@@ -8,12 +8,11 @@
   align-items: center;
   width: min(700px, 100%);
   margin: 0 auto;
-  box-shadow:   inset 0px 5px 3px 0px rgb(255 255 255), 
-  0px 2px 3px 0px #a85500e3
-  ;
+  box-shadow: var(--shadow-embossed);
   overflow: hidden;
   min-height: 600px;
   height: 100%;
+  color: #000;
 
 }
 .quiz-content {
@@ -36,25 +35,18 @@
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
+  text-align: left;
 }
 .quiz-title {
-  color: #000000;
-  text-align: left;
-  font-family: var(--font-body);
   font-size: clamp(2.5rem, 6vw, 3rem);
   line-height: 100%;
   font-weight: bold;
-  position: relative;
   align-self: stretch;
 }
 .quiz-subtitle {
-  color: #000000;
-  text-align: left;
-  font-family: var(--font-body);
   font-size: 1.5rem;
   line-height: 100%;
   font-weight: 400;
-  position: relative;
   align-self: stretch;
 }
 #brewprint-root .quiz-start-button {
@@ -79,7 +71,6 @@
   font-size: clamp(18px, 3vw, 24px);
   line-height: 100%;
   font-weight: 400;
-  position: relative;
 }
 
 
@@ -87,7 +78,6 @@
   overflow: hidden;
   flex: 1;
   min-height: 180px;
-  width: 100%;
   align-self: stretch;
   border-radius: 1rem;
 
@@ -96,13 +86,9 @@
   width: 100%;
   height: 100%;
   display: block;
-  position: relative;
   object-fit: cover;
   mix-blend-mode: luminosity;
   filter: brightness(75%);
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
   pointer-events: none;
 
 }
@@ -123,8 +109,6 @@
 
 .question-card-header {
   align-self: stretch;
-  color: #000;
-  font-family: var(--font-body);
   font-size: clamp(1.5rem, 6vw, 2rem);
   font-style: normal;
   font-weight: bold;
@@ -179,44 +163,38 @@
   min-height: clamp(5rem, 18vw, 8rem);
   cursor: pointer;
 
-  box-shadow: 
-  inset 0px 5px 3px 0px rgb(255 255 255), 
-  0px 2px 3px 0px #a85500e3
-  ;
+  box-shadow: var(--shadow-embossed);
   border: transparent solid 2px;
 
   animation: option-slide-in 0.4s ease backwards;
   transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
 
+  touch-action: manipulation;
+
+}
+
+.option-item,
+.quiz-hero-image {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
-  touch-action: manipulation;
-
 }
 
 .option-item:hover{
   background: #d8eae582;
   transform: scale(101%);
-  box-shadow: 
-  inset 0px 5px 3px 0px rgb(255 255 255), 
-  0px 2px 3px 0px #a85500e3
-  ;
+  box-shadow: var(--shadow-embossed);
   border: white solid 2px;
 
 }
 
 .option-item:active{
-  transform: scale(99%);
   transform: translate(0px, 2px);
-
-
 }
 
 .option-item div{
   color: #6D4100;
   text-align: center;
-  font-family: var(--font-body);
   font-size: 1.5rem;
   font-style: normal;
   font-weight: bold;
