@@ -47,7 +47,10 @@ to zero */
   min-width: 320px;
 }
 
-/* 1. Reset margins for all standard typography tags */
+/* 1. Reset all standard typography tags so Webflow's global tag styles
+   (font-size, font-weight, font-family, color, line-height) can't bleed
+   in — component classes (.quiz-title, .result-career-name, etc.) set
+   whatever typography they need on top of this. */
 #brewprint-root h1,
 #brewprint-root h2,
 #brewprint-root h3,
@@ -58,6 +61,11 @@ to zero */
 #brewprint-root figure,
 #brewprint-root blockquote {
   margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  letter-spacing: inherit;
 }
 
 
