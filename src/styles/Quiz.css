@@ -53,7 +53,8 @@
   font-weight: 400;
   align-self: stretch;
 }
-#brewprint-root .quiz-start-button {
+:where(#brewprint-root) .quiz-start-button {
+  margin-top: 1rem;
   padding: 12px 0px 12px 0px;
   display: flex;
   flex-direction: column;
@@ -229,6 +230,50 @@
   font-size: clamp(1.25rem, 3vw, 1.5rem);
   align-self: stretch;
 }
+
+.result-buttons{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: stretch;
+  align-self: stretch;
+  gap: 1rem;
+  padding: 0 clamp(0rem, (100vw - 26rem) * 0.15, 2rem);
+  padding-bottom: 2rem;
+}
+
+.icon-button{
+  flex: 0 0 auto;
+  padding: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button svg{
+  display: block;
+}
+
+/* .result-buttons-top{
+  width: 100%;
+}
+
+.result-buttons-top .btn-primary{
+  width: 100%;
+}
+.result-buttons-bottom{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-self: stretch;
+}
+
+.result-buttons-bottom .btn-secondary{
+  flex: 1 1 12rem;
+} */
 
 
 

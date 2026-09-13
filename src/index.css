@@ -17,8 +17,8 @@ to zero */
   font-display: swap;
 }
 
-#brewprint-root button,
-#brewprint-root .option-item {
+:where(#brewprint-root) button,
+:where(#brewprint-root) .option-item {
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -76,15 +76,15 @@ to zero */
 } */
 /* debug */
 
-#brewprint-root *,
-#brewprint-root *::before,
-#brewprint-root *::after {
+:where(#brewprint-root) *,
+:where(#brewprint-root) *::before,
+:where(#brewprint-root) *::after {
   box-sizing: inherit;
 }
 
 
 
-#brewprint-root button {
+:where(#brewprint-root) button {
   display: inline-block;
   padding: 0.9em 2em;
   border: none;
@@ -99,7 +99,7 @@ to zero */
   transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
 
-#brewprint-root button:hover {
+:where(#brewprint-root) button:hover {
   background-color: #3a342f;
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -116,7 +116,7 @@ to zero */
   outline-offset: 3px;
 }
 
-#brewprint-root .btn-primary {
+:where(#brewprint-root) .btn-primary {
   background: #855200;
   color: var(--body-bg);
   border: none;
@@ -127,14 +127,13 @@ to zero */
   overflow: hidden;
   outline: white dashed 2px;
   outline-offset: -4px;
-  box-shadow: rgba(1, 1, 1, 0.521) 0px 1px 4px 0px ,
+  box-shadow: rgba(1, 1, 1, 0.45) 0px 4px 10px 0px,
   inset rgb(244, 243, 242) 0px 0px 2px 2px;
-
-  
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-#brewprint-root .btn-primary .droplet,
-#brewprint-root .btn-secondary .droplet {
+:where(#brewprint-root) .btn-primary .droplet,
+:where(#brewprint-root) .btn-secondary .droplet {
   position: absolute;
   border-radius: 50%;
   background: rgba(248, 244, 238, 0.55);
@@ -143,7 +142,7 @@ to zero */
   pointer-events: none;
 }
 
-#brewprint-root .btn-secondary {
+:where(#brewprint-root) .btn-secondary {
   background: #846f2c;
   color: var(--body-bg);
   border: none;
@@ -154,7 +153,22 @@ to zero */
   overflow: hidden;
   outline: white dashed 2px;
   outline-offset: -4px;
-  box-shadow: rgba(1, 1, 1, 0.521) 0px 1px 4px 0px ,
+  box-shadow: rgba(1, 1, 1, 0.45) 0px 4px 10px 0px,
+  inset rgb(244, 243, 242) 0px 0px 2px 2px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+:where(#brewprint-root) .btn-primary:hover,
+:where(#brewprint-root) .btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: rgba(1, 1, 1, 0.5) 0px 6px 14px 0px,
+  inset rgb(244, 243, 242) 0px 0px 2px 2px;
+}
+
+:where(#brewprint-root) .btn-primary:active,
+:where(#brewprint-root) .btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: rgba(1, 1, 1, 0.4) 0px 2px 4px 0px,
   inset rgb(244, 243, 242) 0px 0px 2px 2px;
 }
 
