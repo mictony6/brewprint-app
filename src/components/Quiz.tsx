@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import '../styles/Quiz.css'
 import QuizIntroCard from './QuizIntroCard'
 import questions from "../data/questions.json"
 import careers from "../data/careers.json"
 import QuizQuestionCard from './QuizQuestionCard'
 import QuizResultsCard from './QuizResultsCard'
-import type { Question } from '../types/quiz'
+import { type QuestionOption, type Question } from '../types/quiz'
 
 
 const typedQuestions = questions as Question[]
@@ -38,23 +38,26 @@ for (const career of careerList){
 
 }
 
-// const initialScores : Array<object> = careerList.map((career) => ({ careerName: career, score: 0 }))
-
 function Quiz() {
   const [quizCurrentState, setQuizCurrentState]  = useState<QuizState>(QuizState.INTRO)
   const [questionIndex, setQuestionIndex] = useState(0)
-  // const [scores, setScores] = useState<Array<object>>(initialScores)
-  
+  const answers = useRef<Array<QuestionOption>>([])
+
   function onStartButtonClick(){
     setQuizCurrentState(QuizState.STARTED)
   }
 
   function selectOption(key:string){
+    const question = typedQuestions[questionIndex]
+    const option = question.options.find((o) => o.label === key)
+    if (option){
+      answers.current.push(option)
+    }
+    console.log(answers.current)
     nextQuestion()
   }
 
   function nextQuestion(){
-    
     const nextIndex = questionIndex + 1
     if (nextIndex >= typedQuestions.length){
       setQuizCurrentState(QuizState.RESULTS)
@@ -64,12 +67,14 @@ function Quiz() {
   }
   
   function lastQuestion(){
-      const lastIndex = questionIndex - 1
+    const lastIndex = questionIndex - 1
     if (lastIndex < 0){
       setQuizCurrentState(QuizState.INTRO)
       return
     }
     setQuestionIndex(lastIndex)
+    answers.current.pop()
+
   }
   
   function renderQuestions() {
@@ -84,6 +89,11 @@ function Quiz() {
   function restartQuiz(){
     setQuizCurrentState(QuizState.INTRO)
     setQuestionIndex(0)
+    answers.current = []
+  }
+
+  function renderResults(){
+    return <QuizResultsCard onBackClick={restartQuiz} />
   }
 
   function renderQuizStep(){
@@ -93,15 +103,12 @@ function Quiz() {
       case QuizState.STARTED:
         return renderQuestions()
       case QuizState.RESULTS:
-        return <QuizResultsCard onBackClick={restartQuiz} />
+        return renderResults()
     }
   }
 
   return (
       <section className='quiz-section'>
-        {/* <div>
-          ProgressBarHere
-        </div> */}
         {renderQuizStep()}
       </section>
   )

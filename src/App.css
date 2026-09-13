@@ -5,18 +5,33 @@
     flex: 1;
     min-height: 0;
     width: 100%;
+    position: relative;
+
 }
 
+
+.pattern{
+    position: absolute;
+    inset: 0;
+    background-image: url(./assets/grid.png);
+    image-rendering: pixelated;
+    background-size: 40rem;
+    background-position: 50%;
+    z-index: 1;
+    opacity: .25;
+}
 .quiz-section{
+    z-index: 2;
     padding: 2rem 1rem;
     width: 100%;
     flex: 1;
-    max-height: 700px;
+    max-height: 100dvh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+
 }
 
 

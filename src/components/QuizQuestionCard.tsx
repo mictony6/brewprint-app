@@ -8,7 +8,7 @@ type OptionListItemProps = {
 
 function OptionListItem ({option, ...liProps } : OptionListItemProps){
     return(
-    <li className="option-item" {...liProps}>
+    <li className="option-item no-select" {...liProps}>
         <div>{option.label}</div> 
     </li>
     )
@@ -27,7 +27,6 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
         setTimeout(() => {
             isTransitiong.current = false
             onOptionSelect(label)
-            navigator.vibrate(4)
         }, 250)
     }
 

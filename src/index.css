@@ -21,6 +21,12 @@ to zero */
   -webkit-tap-highlight-color: transparent;
 }
 
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 #brewprint-root {
   --body-bg: #f8f4ee;
   --font-body: "Fredoka", system-ui, sans-serif;

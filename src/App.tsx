@@ -7,6 +7,7 @@ function App() {
   return (
     <>
      <div className="brewprint-hello">
+      <div className="pattern"></div>
       <Quiz/>
     </div>
     </>
