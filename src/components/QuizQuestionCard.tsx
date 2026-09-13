@@ -1,5 +1,6 @@
 import Button from "./Button"
 import type { Question, QuestionOption } from "../types/quiz"
+import { useRef } from "react"
 
 type OptionListItemProps = {
     option: QuestionOption
@@ -12,8 +13,24 @@ function OptionListItem ({option, ...liProps } : OptionListItemProps){
     </li>
     )
 }
+
+
 export default function QuizQuestionCard({question, onOptionSelect, OnBack} : QuestionCardProps){
-    
+    const isTransitiong = useRef(false)
+
+    function optionSelectHandler(label:string){
+        console.log(isTransitiong.current)
+        if (isTransitiong.current) return
+        isTransitiong.current = true
+        navigator.vibrate(4)
+
+        setTimeout(() => {
+            isTransitiong.current = false
+            onOptionSelect(label)
+            navigator.vibrate(4)
+        }, 250)
+    }
+
     if (!question){
         return(
             <>
@@ -21,6 +38,7 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
             </>
         )
     }
+
     return(
         <div className="quiz-card">
             <div className="question-card">
@@ -32,16 +50,13 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack} : Qu
                 <div className="question-card-content">
                     <ul className="option-list">
                         {question.options.map((o) => (
-                                <OptionListItem key ={o.label} option={o} onClick={()=>{
-                                    navigator.vibrate?.(4)
-                                    setTimeout(() => onOptionSelect(o.label), 250)
-                                }}/>
-                            ))}
+                            <OptionListItem key ={o.label} option={o} onClick={()=>optionSelectHandler(o.label)}/>
+                        ))} 
 
                     </ul>
                 </div>
                 <div className="question-card-footer">
-                    <Button onClick={OnBack}>Back</Button>
+                    <Button onClick={OnBack} labelClassName="quiz-start-button-label">Back</Button>
                 </div>
             </div>
         </div>

@@ -99,6 +99,9 @@ function Quiz() {
 
   return (
       <section className='quiz-section'>
+        {/* <div>
+          ProgressBarHere
+        </div> */}
         {renderQuizStep()}
       </section>
   )

@@ -18,13 +18,15 @@ function QuizIntroCard({startButtonHandler  = () => {}}){
                 minutes, 22 questions.
               </div>
             </div>
-            <Button className="quiz-start-button" labelClassName="quiz-start-button__label" onClick={startButtonHandler}>
+            <Button className="quiz-start-button" labelClassName="quiz-start-button-label" onClick={startButtonHandler}>
               Start Quiz
             </Button>
-            <img
-              className="quiz-hero-image"
-              src= {quizHero}
-            />
+            <div className="quiz-hero-wrapper">
+              <img
+                className="quiz-hero-image"
+                src= {quizHero}
+              />
+            </div>
           </div>
         </div>
     )

@@ -13,7 +13,7 @@
   ;
   overflow: hidden;
   min-height: 600px;
-
+  height: 100%;
 
 }
 .quiz-content {
@@ -22,7 +22,8 @@
   gap: 16px;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
+  flex: 1;
+  min-height: 0;
   width: 100%;
   max-width: 600px;
   padding: 2rem 0;
@@ -39,7 +40,7 @@
 .quiz-title {
   color: #000000;
   text-align: left;
-  font-family: "Fredoka", sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(2.5rem, 6vw, 3rem);
   line-height: 100%;
   font-weight: bold;
@@ -49,7 +50,7 @@
 .quiz-subtitle {
   color: #000000;
   text-align: left;
-  font-family: "Fredoka", sans-serif;
+  font-family: var(--font-body);
   font-size: 1.5rem;
   line-height: 100%;
   font-weight: 400;
@@ -64,31 +65,46 @@
   align-items: center;
   justify-content: center;
   align-self: stretch;
+  flex-shrink: 0;
   height: 64px;
   position: relative;
   overflow: hidden;
 }
-.quiz-start-button__label {
+.quiz-start-button-label {
   color: var(--body-bg);
   text-align: center;
   text-transform: none;
   letter-spacing: normal;
-  font-family: "LoRes9PlusOt-NarrowBold", sans-serif;
+  font-family: var(--font-heading);
   font-size: clamp(18px, 3vw, 24px);
   line-height: 100%;
   font-weight: 400;
   position: relative;
 }
-.quiz-hero-image {
-  align-self: stretch;
-  flex-shrink: 0;
+
+
+.quiz-hero-wrapper{
+  overflow: hidden;
+  flex: 1;
+  min-height: 180px;
   width: 100%;
-  height: clamp(180px, 40vw, 324px);
+  align-self: stretch;
+  border-radius: 1rem;
+
+}
+.quiz-hero-image {
+  width: 100%;
+  height: 100%;
+  display: block;
   position: relative;
   object-fit: cover;
   mix-blend-mode: luminosity;
   filter: brightness(75%);
-  border-radius: 1rem;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  pointer-events: none;
+
 }
 
 .question-card{
@@ -108,7 +124,7 @@
 .question-card-header {
   align-self: stretch;
   color: #000;
-  font-family: "Fredoka", sans-serif;
+  font-family: var(--font-body);
   font-size: clamp(1.5rem, 6vw, 2rem);
   font-style: normal;
   font-weight: bold;
@@ -172,6 +188,11 @@
   animation: option-slide-in 0.4s ease backwards;
   transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
 
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+
 }
 
 .option-item:hover{
@@ -186,7 +207,6 @@
 }
 
 .option-item:active{
-  user-select: none;
   transform: scale(99%);
   transform: translate(0px, 2px);
 
@@ -196,7 +216,7 @@
 .option-item div{
   color: #6D4100;
   text-align: center;
-  font-family: "Fredoka", system-ui, sans-serif;
+  font-family: var(--font-body);
   font-size: 1.5rem;
   font-style: normal;
   font-weight: bold;
