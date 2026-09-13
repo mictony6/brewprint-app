@@ -49,17 +49,18 @@ to zero */
 
 /* 1. Reset all standard typography tags so Webflow's global tag styles
    (font-size, font-weight, font-family, color, line-height) can't bleed
-   in — component classes (.quiz-title, .result-career-name, etc.) set
-   whatever typography they need on top of this. */
-#brewprint-root h1,
-#brewprint-root h2,
-#brewprint-root h3,
-#brewprint-root h4,
-#brewprint-root h5,
-#brewprint-root h6,
-#brewprint-root p,
-#brewprint-root figure,
-#brewprint-root blockquote {
+   in. :where() keeps this scoped to #brewprint-root without adding an
+   ID's worth of specificity, so component classes (.quiz-title,
+   .result-career-name, etc.) still win over this reset. */
+:where(#brewprint-root) h1,
+:where(#brewprint-root) h2,
+:where(#brewprint-root) h3,
+:where(#brewprint-root) h4,
+:where(#brewprint-root) h5,
+:where(#brewprint-root) h6,
+:where(#brewprint-root) p,
+:where(#brewprint-root) figure,
+:where(#brewprint-root) blockquote {
   margin: 0;
   padding: 0;
   font: inherit;
