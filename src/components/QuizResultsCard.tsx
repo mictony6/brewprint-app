@@ -13,10 +13,11 @@ function QuizResultsCard({career, onRestart} : QuizResultsCardPropTypes){
                 <p className="result-blurb">
                 {career.blurb}
                 </p>
+                <a href={homebrewLoc+career.slug} target="_blank" className="read-more-anchor" >Read more...</a>
             </div>
             <div className="result-buttons">
 
-                <Button onClick={() => window.location.href = homebrewLoc + career.slug} variant= "secondary" labelClassName="quiz-restart-button-label" > Read More</Button>
+                {/* <Button onClick={() => window.location.href = homebrewLoc + career.slug} variant= "secondary" labelClassName="quiz-restart-button-label" > Read More</Button> */}
                 <Button onClick = {onRestart} variant="secondary" className="icon-button" aria-label="Restart">
                     <RotateCcw size={20} />
                 </Button>

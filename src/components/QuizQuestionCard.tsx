@@ -41,9 +41,9 @@ export default function QuizQuestionCard({question, onOptionSelect, OnBack , onR
         <div className="quiz-card">
             <div className="question-card">
                 <div className="question-card-header">
-                    <div className="question-card-question">
+                    <h3 className="question-card-question">
                         {question.text}
-                    </div>
+                    </h3>
                 </div>
                 <div className="question-card-content">
                     <ul className="option-list">

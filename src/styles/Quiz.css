@@ -224,12 +224,18 @@
   line-height: 100%;
   font-weight: bold;
   align-self: stretch;
+  animation: option-slide-in 0.4s ease backwards;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .result-blurb{
   font-size: clamp(1.25rem, 3vw, 1.5rem);
   align-self: stretch;
+    animation: option-slide-in 0.4s ease backwards;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+  animation-delay: 0.05s;
 }
+
 
 .result-buttons{
   display: flex;
@@ -275,7 +281,68 @@
   flex: 1 1 12rem;
 } */
 
+.read-more-anchor{
+  font-size: 1.2rem;
+  align-self: flex-start;
+  text-align: left;
+  color: rgb(94, 67, 0);
+  border-radius: 16px;
+  padding: .5rem 1rem;
+  background-color: rgb(239 199 54 / 28%);
+  text-decoration: none;
+  box-shadow: var(--shadow-embossed);
+      animation: option-slide-in 0.4s ease backwards;
+  transition: transform 0.12s ease, background-color 0.15s ease, border-color 0.15s ease;
+  animation-delay: 0.15s;
 
+
+}
+
+.read-more-anchor:hover{
+  background-color: rgba(162, 188, 162, 0.562);
+  color: rgb(75, 0, 0);
+  transform: scale(101%);
+}
+
+.read-more-anchor:active{
+  transform: scale(99%);
+}
+
+
+
+.progres-bar{
+  display: inline-flex;
+  gap: clamp(.1rem, 2vw, 1rem);
+  margin-bottom: 1rem;
+  margin-top: auto;
+  width: min(700px, 100%);
+  padding: 0 1rem;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.progress-segment {
+  min-width: 1px;
+  min-height: 0.5rem;
+  width: 1rem;
+  flex: 1;
+  padding: .25rem;
+  border-radius: .5rem;
+
+  box-shadow: var(--shadow-embossed);
+
+}
+
+.progress-segment-active {
+  box-shadow: 0px 2px 3px 0px #a85500e3;
+  background-color: #4b8001;
+}
+
+.progress-segment-done {
+  box-shadow: 0px 2px 3px 0px #a85500e3;
+  background-color: #a15a37;
+}
 
 @keyframes option-slide-in {
   from{
@@ -292,3 +359,4 @@
 .option-list li:nth-child(2) { animation-delay: 0.15s; }
 .option-list li:nth-child(3) { animation-delay: 0.25s; }
 .option-list li:nth-child(4) { animation-delay: 0.35s; }
+

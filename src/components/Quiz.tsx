@@ -7,6 +7,7 @@ import QuizQuestionCard from './QuizQuestionCard'
 import QuizResultsCard from './QuizResultsCard'
 import { type Career, type QuestionOption, type Question } from '../types/quiz'
 import { getCareerList, computeMaxScores, computeScores, getTopResult } from '../lib/scoring'
+import ProgressBar from './ProgressBar'
 
 
 const typedQuestions = questions as Question[]
@@ -90,12 +91,18 @@ function Quiz() {
   
   function renderQuestions() {
     const question = typedQuestions[questionIndex]
-    return <QuizQuestionCard 
-    question={question} 
-    onOptionSelect={selectOption} 
-    OnBack={lastQuestion}
-    onRestart={restartQuiz}
-    />
+    return (
+
+      <>
+      <ProgressBar steps={typedQuestions.length} currentIndex ={questionIndex} />
+      <QuizQuestionCard 
+      question={question} 
+      onOptionSelect={selectOption} 
+      OnBack={lastQuestion}
+      onRestart={restartQuiz}
+      />
+      </>
+    )
   }
 
   function restartQuiz(){
