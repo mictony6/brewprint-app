@@ -8,6 +8,7 @@ import QuizResultsCard from './QuizResultsCard'
 import { type Career, type QuestionOption, type Question } from '../types/quiz'
 import { getCareerList, computeMaxScores, computeScores, getTopResult } from '../lib/scoring'
 import ProgressBar from './ProgressBar'
+import InteractiveDesk from './InteractiveDesk'
 
 
 const typedQuestions = questions as Question[]
@@ -16,6 +17,7 @@ const QuizState = {
   INTRO: "INTRO",
   STARTED: "STARTED",
   RESULTS: "RESULTS",
+  DESK: "DESK",
 } as const
 
 type QuizState = typeof QuizState[keyof typeof QuizState]
@@ -39,7 +41,8 @@ function getInitialAnswers(): QuestionOption[] {
 }
 
 function getInitialResults(): Map<string, number> | null {
-  if (getInitialQuizState() !== QuizState.RESULTS) return null
+  const state = getInitialQuizState()
+  if (state !== QuizState.RESULTS && state !== QuizState.DESK) return null
   return computeScores(getInitialAnswers(), careerList)
 }
 
@@ -55,7 +58,6 @@ function Quiz() {
     sessionStorage.setItem("answers", JSON.stringify(answers.current))
   },[quizCurrentState, questionIndex])
 
-
   function onStartButtonClick(){
     setQuizCurrentState(QuizState.STARTED)
   }
@@ -67,6 +69,14 @@ function Quiz() {
       answers.current.push(option)
     }
     nextQuestion()
+  }
+
+  function viewDesk(){
+    setQuizCurrentState(QuizState.DESK)
+  }
+
+  function leaveDesk(){
+    setQuizCurrentState(QuizState.RESULTS)
   }
 
   function nextQuestion(){
@@ -116,7 +126,13 @@ function Quiz() {
     if (!results) return null
     const topResult:[string, number] = getTopResult(results, maxScores)
     const careerResult = typedCareers.get(topResult[0])!
-    return <QuizResultsCard career ={careerResult} onRestart={restartQuiz} />
+    return <QuizResultsCard career ={careerResult} onRestart={restartQuiz} onViewDesk={viewDesk} />
+  }
+
+  function renderDesk(){
+    if (!results) return null
+    const topResult:[string, number] = getTopResult(results, maxScores)
+    return <InteractiveDesk careerKey = {topResult[0]} onBack={leaveDesk}></InteractiveDesk>
   }
 
   function renderQuizStep(){
@@ -127,6 +143,8 @@ function Quiz() {
         return renderQuestions()
       case QuizState.RESULTS:
         return renderResults()
+      case QuizState.DESK:
+        return renderDesk()
     }
   }
 

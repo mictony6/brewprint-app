@@ -1,7 +1,40 @@
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+
+// Dev-only endpoint that lets the debug desk-position editor persist its
+// dragged/resized layout straight to src/data/deskPositions.json, instead
+// of copy-pasting exported JSON by hand.
+function deskPositionsSavePlugin(): Plugin {
+  const filePath = resolve(process.cwd(), 'src/data/deskPositions.json')
+  return {
+    name: 'desk-positions-save',
+    apply: 'serve',
+    configureServer(server) {
+      server.middlewares.use('/api/desk-positions', (req, res) => {
+        if (req.method !== 'POST') {
+          res.statusCode = 405
+          res.end('Method not allowed')
+          return
+        }
+        let body = ''
+        req.on('data', (chunk) => { body += chunk })
+        req.on('end', () => {
+          try {
+            const parsed = JSON.parse(body)
+            writeFileSync(filePath, JSON.stringify(parsed, null, 2) + '\n')
+            res.statusCode = 200
+            res.end('ok')
+          } catch (err) {
+            res.statusCode = 400
+            res.end(String(err))
+          }
+        })
+      })
+    },
+  }
+}
 
 // Extracts external <link> tags (Google Fonts preconnect/stylesheet, etc.)
 // from index.html into dist/head-links.json, so loader.js can inject them
@@ -37,7 +70,7 @@ function headLinksPlugin(): Plugin {
 // https://vite.dev/config/
 export default defineConfig({
   base: 'https://brewprint-app.pages.dev/',
-  plugins: [react(), headLinksPlugin()],
+  plugins: [react(), headLinksPlugin(), deskPositionsSavePlugin()],
   build: {
     manifest: true,
   },

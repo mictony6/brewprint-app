@@ -35,3 +35,19 @@
 }
 
 
+
+
+#debug-switch{
+    position: fixed;
+    inset: 0;
+    padding: 0.5rem 1rem;
+    width: max-content;
+    height: max-content;
+    z-index: 99;
+    left: 0;
+    top: 0;
+    background-color: antiquewhite;
+    box-shadow: var(--shadow-embossed);
+    border-radius: 8px;
+}
+

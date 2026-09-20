@@ -2,7 +2,7 @@ import { RotateCcw } from "lucide-react"
 import type { Career } from "../types/quiz"
 import Button from "./Button"
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
-function QuizResultsCard({career, onRestart} : QuizResultsCardPropTypes){
+function QuizResultsCard({career, onRestart, onViewDesk} : QuizResultsCardPropTypes){
 
     return(
         <div className="quiz-card">
@@ -21,8 +21,7 @@ function QuizResultsCard({career, onRestart} : QuizResultsCardPropTypes){
                 <Button onClick = {onRestart} variant="secondary" className="icon-button" aria-label="Restart">
                     <RotateCcw size={20} />
                 </Button>
-                <Button onClick = {()=>{}} variant="primary" labelClassName="quiz-restart-button-label">View Interactive Desk</Button>
-
+                <Button onClick = {onViewDesk} variant="primary" labelClassName="quiz-restart-button-label">View Interactive Desk</Button>
             </div>
         </div>
     )
@@ -31,6 +30,7 @@ function QuizResultsCard({career, onRestart} : QuizResultsCardPropTypes){
 interface QuizResultsCardPropTypes {
     career : Career,
     onRestart: () => void,
+    onViewDesk: () => void
 }
 
 export default QuizResultsCard
