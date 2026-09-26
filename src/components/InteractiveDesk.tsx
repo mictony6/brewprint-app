@@ -51,11 +51,13 @@ export default function InteractiveDesk({ careerKey, onBack }: { careerKey: stri
           )
         })}
 
-        {isFirstStepsOpen && currentItem && (
+        {isFirstStepsOpen && (
           <Modal>
             <Modal.Header>First Steps</Modal.Header>
             <Modal.Content>
-              <div dangerouslySetInnerHTML={{ __html: currentItem.fieldData["first-steps"] ?? "" }} />
+              {currentItem
+                ? <div dangerouslySetInnerHTML={{ __html: currentItem.fieldData["first-steps"] ?? "" }} />
+                : <p>Loading…</p>}
             </Modal.Content>
             <Modal.Footer>
               <Button onClick={() => setIsFirstStepsOpen(false)} labelClassName="modal-close-button-label">Close</Button>
