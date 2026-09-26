@@ -3,6 +3,7 @@ import careers from "../data/careers.json"
 import { type Career } from '../types/quiz'
 import QuizResultsCard from './QuizResultsCard'
 import InteractiveDesk from './InteractiveDesk'
+import EditableDesk from './EditableDesk'
 import { useDeskEditMode } from '../lib/deskPositionsStore'
 
 const typedCareers = new Map(Object.entries(careers)) as Map<string, Career>
@@ -15,7 +16,9 @@ function DebugCareerPreview({ careerKey }: { careerKey: string }) {
   return (
     <section className='quiz-section'>
       {showDesk
-        ? <InteractiveDesk careerKey={careerKey} onBack={() => setShowDesk(false)} editable={editMode} />
+        ? editMode
+          ? <EditableDesk careerKey={careerKey} onBack={() => setShowDesk(false)} />
+          : <InteractiveDesk careerKey={careerKey} onBack={() => setShowDesk(false)} />
         : <QuizResultsCard career={career} onRestart={() => setShowDesk(false)} onViewDesk={() => setShowDesk(true)} />}
     </section>
   )
