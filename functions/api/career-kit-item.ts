@@ -10,10 +10,15 @@ export const onRequestGet = async ({ env, request }: { env: Env; request: Reques
   const itemId = url.searchParams.get("id");
 
   if (!itemId) {
-    return Response.json({ message: "Missing id query param" }, { status: 400 });
+    return Response.json({ message: "Missing id query param" }, {
+      status: 400,
+      headers: { "Access-Control-Allow-Origin": "*" },
+    });
   }
 
   const client = new WebflowClient({ environment: WebflowEnvironment.DataApi, accessToken: env.WEBFLOW_CMS });
   const item = await client.collections.items.getItemLive(CAREER_KITS_ID, itemId);
-  return Response.json(item);
+  return Response.json(item, {
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
 };

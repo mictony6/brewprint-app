@@ -10,7 +10,9 @@ export const onRequestGet = async ({ env } : {env : Env}) => {
         offset: 0,
         limit: 100,
     });
-  return Response.json(items);
+  return Response.json(items, {
+    headers: { "Access-Control-Allow-Origin": "*" },
+  });
 };
 
 

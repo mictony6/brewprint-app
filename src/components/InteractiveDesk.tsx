@@ -13,7 +13,9 @@ export default function InteractiveDesk({ careerKey, onBack }: { careerKey: stri
   const positions = useDeskPositions()
   const [items, setItems] = useState<CareerKitItem[]>([])
   const [isFirstStepsOpen, setIsFirstStepsOpen] = useState(false)
-  const itemsUrl = '/api/career-kits'
+  const itemsUrl = import.meta.env.DEV
+    ? '/api/career-kits'
+    : new URL('api/career-kits', import.meta.env.BASE_URL).toString()
 
   useEffect(() => {
     fetch(itemsUrl).then(res => res.json()).then(data => {
