@@ -45,9 +45,12 @@
     height: max-content;
     z-index: 99;
     left: 0;
-    top: 0;
+    top: 90%;
     background-color: antiquewhite;
     box-shadow: var(--shadow-embossed);
     border-radius: 8px;
+    display: flex;
+    gap: 1rem;
+    max-width: 100vw;
 }
 

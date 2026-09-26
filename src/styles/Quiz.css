@@ -370,8 +370,21 @@
   flex-direction: column;
   justify-self: start;
   gap: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
+
+.desk-controls {  display: none; }
+@media (max-width: 640px) {
+  .desk-controls { display: flex; }
+
+  .desk-panel{
+    padding: 2rem 1rem !important;
+  }
+  .desk-panel button{
+    display: none;
+  }
+}
+
 
 .desk-panel{
   display: flex;
@@ -479,3 +492,36 @@
 .option-list li:nth-child(3) { animation-delay: 0.25s; }
 .option-list li:nth-child(4) { animation-delay: 0.35s; }
 
+.modal-wrapper{
+  background-color: var(--body-bg);
+  max-width: 320px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-embossed);
+  border-radius: 1rem;
+}
+
+.modal-content h2{
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.modal-footer{
+  margin-top: 1rem;
+}
+.modal-footer button{
+  padding: 0.75rem;
+}
+.modal-close-button-label{
+  font-family: var(--font-heading);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+}

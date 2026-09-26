@@ -132,7 +132,8 @@ function Quiz() {
   function renderDesk(){
     if (!results) return null
     const topResult:[string, number] = getTopResult(results, maxScores)
-    return <InteractiveDesk careerKey = {topResult[0]} onBack={leaveDesk}></InteractiveDesk>
+    const topCareer : Career = typedCareers.get(topResult[0])!
+    return <InteractiveDesk careerKey = {topCareer.slug} onBack={leaveDesk}></InteractiveDesk>
   }
 
   function renderQuizStep(){

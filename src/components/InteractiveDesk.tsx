@@ -1,16 +1,31 @@
 import Button from "./Button";
+import Modal from "./Modal";
 import { deskBackground, deskItems } from "../lib/deskItems"
 import { useDeskPositions } from "../lib/deskPositionsStore"
+import { useEffect, useState } from "react";
+import type { CollectionItem } from "webflow-api/api/types/CollectionItem"
+import type { CareerKitFields } from "../types/careerKit"
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
+
+type CareerKitItem = CollectionItem & { fieldData: CareerKitFields }
 
 export default function InteractiveDesk({ careerKey, onBack }: { careerKey: string, onBack: () => void }) {
   const positions = useDeskPositions()
+  const [items, setItems] = useState<CareerKitItem[]>([])
+  const [isFirstStepsOpen, setIsFirstStepsOpen] = useState(false)
+  const itemsUrl = '/api/career-kits'
 
+  useEffect(() => {
+    fetch(itemsUrl).then(res => res.json()).then(data => {
+      setItems(data.items)
+    })
+  }, [])
+
+  const currentItem = items.find(item => item.fieldData.slug === careerKey)
+  console.log(currentItem)
   return (
     <>
-    {/* <div className="desk-controls">
-      <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>
-    </div> */}
+
     <div className="interactive-desk-wrapper">
 
       <div className="indesk-background">
@@ -28,24 +43,38 @@ export default function InteractiveDesk({ careerKey, onBack }: { careerKey: stri
                 className="desk-item"
                 data-item={item.name}
                 style={{ width: "100%", height: "100%", cursor: "pointer" }}
+                onClick={item.name === "lamp" ? () => setIsFirstStepsOpen(true) : undefined}
               />
             </div>
           )
         })}
+
+        {isFirstStepsOpen && currentItem && (
+          <Modal>
+            <Modal.Header>First Steps</Modal.Header>
+            <Modal.Content>
+              <div dangerouslySetInnerHTML={{ __html: currentItem.fieldData["first-steps"] ?? "" }} />
+            </Modal.Content>
+            <Modal.Footer>
+              <Button onClick={() => setIsFirstStepsOpen(false)} labelClassName="modal-close-button-label">Close</Button>
+            </Modal.Footer>
+          </Modal>
+        )}
       </div>
 
     </div>
     <div className="desk-panel">
       <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>
-        <div className="panel-group">
-      <h2>Interactive Desk</h2>
-      <p>Welcome to your personal desk! <br/> Try clicking on an object.</p>
+      <div className="panel-group">
+        <h2>Interactive Desk</h2>
+        <p>Welcome to your personal desk! <br/> Try clicking on an object.</p>
 
-        </div>
+      </div>
       <a href={homebrewLoc+careerKey} target="_blank" className="read-more-anchor" >Read more...</a>
-
     </div>
-
+    <div className="desk-controls">
+      <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>
+    </div>
     </>
   )
 }
