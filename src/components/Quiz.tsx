@@ -7,6 +7,7 @@ import QuizQuestionCard from './QuizQuestionCard'
 import QuizResultsCard from './QuizResultsCard'
 import { type Career, type QuestionOption, type Question } from '../types/quiz'
 import { getCareerList, computeMaxScores, computeScores, getTopResult } from '../lib/scoring'
+import { fetchCareerKitBySlug, type CareerKitItem } from '../lib/careerKits'
 import ProgressBar from './ProgressBar'
 import InteractiveDesk from './InteractiveDesk'
 
@@ -50,6 +51,7 @@ function Quiz() {
   const [quizCurrentState, setQuizCurrentState]  = useState<QuizState>(getInitialQuizState)
   const [questionIndex, setQuestionIndex] = useState(getInitialQuestionIndex)
   const [results, setResults] = useState<Map<string, number> | null>(getInitialResults)
+  const [careerKitItem, setCareerKitItem] = useState<CareerKitItem | undefined>(undefined)
   const answers = useRef<Array<QuestionOption>>(getInitialAnswers())
 
   useEffect(()=>{
@@ -57,6 +59,13 @@ function Quiz() {
     sessionStorage.setItem("questionIndex", questionIndex.toString())
     sessionStorage.setItem("answers", JSON.stringify(answers.current))
   },[quizCurrentState, questionIndex])
+
+  useEffect(() => {
+    if (!results) return
+    const topResult = getTopResult(results, maxScores)
+    const topCareer = typedCareers.get(topResult[0])!
+    fetchCareerKitBySlug(topCareer.slug).then(setCareerKitItem)
+  }, [results])
 
   function onStartButtonClick(){
     setQuizCurrentState(QuizState.STARTED)
@@ -133,7 +142,7 @@ function Quiz() {
     if (!results) return null
     const topResult:[string, number] = getTopResult(results, maxScores)
     const topCareer : Career = typedCareers.get(topResult[0])!
-    return <InteractiveDesk careerKey = {topCareer.slug} onBack={leaveDesk}></InteractiveDesk>
+    return <InteractiveDesk careerKey = {topCareer.slug} careerKitItem={careerKitItem} onBack={leaveDesk}></InteractiveDesk>
   }
 
   function renderQuizStep(){

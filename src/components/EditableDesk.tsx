@@ -3,6 +3,7 @@ import Button from "./Button";
 import InteractiveDesk from "./InteractiveDesk"
 import { deskBackground, deskItems } from "../lib/deskItems"
 import { useDeskPositions, deskPositionsStore, type DeskItemPosition } from "../lib/deskPositionsStore"
+import type { CareerKitItem } from "../lib/careerKits"
 
 const MIN_SIZE_PERCENT = 3
 
@@ -10,7 +11,7 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
-type DeskProps = { careerKey: string, onBack: () => void }
+type DeskProps = { careerKey: string, careerKitItem: CareerKitItem | undefined, onBack: () => void }
 
 // Positioning controls must never be reachable outside local dev, no matter who renders this.
 export default function EditableDesk(props: DeskProps) {

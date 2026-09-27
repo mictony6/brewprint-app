@@ -2,29 +2,14 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { deskBackground, deskItems } from "../lib/deskItems"
 import { useDeskPositions } from "../lib/deskPositionsStore"
-import { useEffect, useState } from "react";
-import type { CollectionItem } from "webflow-api/api/types/CollectionItem"
-import type { CareerKitFields } from "../types/careerKit"
+import { useState } from "react";
+import type { CareerKitItem } from "../lib/careerKits"
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
 
-type CareerKitItem = CollectionItem & { fieldData: CareerKitFields }
-
-export default function InteractiveDesk({ careerKey, onBack }: { careerKey: string, onBack: () => void }) {
+export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { careerKey: string, careerKitItem: CareerKitItem | undefined, onBack: () => void }) {
   const positions = useDeskPositions()
-  const [items, setItems] = useState<CareerKitItem[]>([])
   const [isFirstStepsOpen, setIsFirstStepsOpen] = useState(false)
-  const itemsUrl = import.meta.env.DEV
-    ? '/api/career-kits'
-    : new URL('api/career-kits', import.meta.env.BASE_URL).toString()
 
-  useEffect(() => {
-    fetch(itemsUrl).then(res => res.json()).then(data => {
-      setItems(data.items)
-    })
-  }, [])
-
-  const currentItem = items.find(item => item.fieldData.slug === careerKey)
-  console.log(currentItem)
   return (
     <>
 
@@ -55,8 +40,8 @@ export default function InteractiveDesk({ careerKey, onBack }: { careerKey: stri
           <Modal>
             <Modal.Header>First Steps</Modal.Header>
             <Modal.Content>
-              {currentItem
-                ? <div dangerouslySetInnerHTML={{ __html: currentItem.fieldData["first-steps"] ?? "" }} />
+              {careerKitItem
+                ? <div dangerouslySetInnerHTML={{ __html: careerKitItem.fieldData["first-steps"] ?? "" }} />
                 : <p>Loading…</p>}
             </Modal.Content>
             <Modal.Footer>
