@@ -130,7 +130,7 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
         <p>Welcome to your personal desk! <br/> Try clicking on an object.</p>
 
       </div>
-      <a href={homebrewLoc+careerKey} target="_blank" className="read-more-anchor" >Read more...</a>
+      <a href={homebrewLoc+careerKey} target="_self" className="read-more-anchor" >Read more...</a>
     </div>
     <div className="desk-controls">
       <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>

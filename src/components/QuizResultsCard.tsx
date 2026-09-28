@@ -13,7 +13,7 @@ function QuizResultsCard({career, onRestart, onViewDesk} : QuizResultsCardPropTy
                 <p className="result-blurb">
                 {career.blurb}
                 </p>
-                <a href={homebrewLoc+career.slug} target="_blank" className="read-more-anchor" >Read more...</a>
+                <a href={homebrewLoc+career.slug} target="_self" className="read-more-anchor" >Read more...</a>
             </div>
             <div className="result-buttons">
 
