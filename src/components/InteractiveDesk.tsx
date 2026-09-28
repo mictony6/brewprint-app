@@ -2,16 +2,60 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { deskBackground, deskItems } from "../lib/deskItems"
 import { useDeskPositions } from "../lib/deskPositionsStore"
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CareerKitItem } from "../lib/careerKits"
+import { fetchResources, type ResourceItem } from "../lib/resources"
+import { parseFaqs } from "../lib/parseFaqs"
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
 
 const DUST_PARTICLE_COUNT = 14
 const DUST_PARTICLE_NEAR_COUNT = 5
+const EMPTY_STATE = <p>Nothing here yet — check back soon.</p>
+
+function FaqList({ entries }: { entries: ReturnType<typeof parseFaqs> }) {
+  if (entries.length === 0) return EMPTY_STATE
+  return entries.map((faq) => (
+    <div key={faq.question}>
+      <h3>{faq.question}</h3>
+      <p>{faq.answer}</p>
+    </div>
+  ))
+}
+
+function ResourceLinkList({ resources }: { resources: ResourceItem[] }) {
+  if (resources.length === 0) return EMPTY_STATE
+  return (
+    <ul>
+      {resources.map((resource) => <ResourceLink key={resource.id} resource={resource} />)}
+    </ul>
+  )
+}
+
+function ResourceLink({ resource }: { resource: ResourceItem }) {
+  if (!resource.fieldData.link) return <li>{resource.fieldData.name}</li>
+  return <li><a href={resource.fieldData.link} target="_blank" rel="noreferrer">{resource.fieldData.name}</a></li>
+}
 
 export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { careerKey: string, careerKitItem: CareerKitItem | undefined, onBack: () => void }) {
   const positions = useDeskPositions()
-  const [isFirstStepsOpen, setIsFirstStepsOpen] = useState(false)
+  const [openItemName, setOpenItemName] = useState<string | null>(null)
+  const [resources, setResources] = useState<ResourceItem[]>([])
+
+  useEffect(() => {
+    fetchResources().then(setResources)
+  }, [])
+
+  const resourcesById = useMemo(
+    () => new Map(resources.map((resource) => [resource.id, resource])),
+    [resources]
+  )
+
+  const openItem = deskItems.find((item) => item.name === openItemName)
+  const openItemValue = openItem ? careerKitItem?.fieldData[openItem.opensField] : undefined
+  const faqEntries = openItem?.opensField === "faqs" ? parseFaqs(openItemValue as string) : []
+  const resourceEntries = Array.isArray(openItemValue)
+    ? openItemValue.map((id) => resourcesById.get(id)).filter((resource): resource is ResourceItem => !!resource)
+    : []
 
   return (
     <>
@@ -45,22 +89,30 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
                 className="desk-item"
                 data-item={item.name}
                 style={{ width: "100%", height: "100%", cursor: "pointer" }}
-                onClick={item.name === "lamp" ? () => setIsFirstStepsOpen(true) : undefined}
+                onClick={() => setOpenItemName(item.name)}
               />
             </div>
           )
         })}
 
-        {isFirstStepsOpen && (
+        {openItem && (
           <Modal>
-            <Modal.Header>First Steps</Modal.Header>
+            <Modal.Header>{openItem.modalTitle}</Modal.Header>
             <Modal.Content>
-              {careerKitItem
-                ? <div dangerouslySetInnerHTML={{ __html: careerKitItem.fieldData["first-steps"] ?? "" }} />
-                : <p>Loading…</p>}
+              {!careerKitItem ? (
+                <p>Loading…</p>
+              ) : openItem.opensField === "faqs" ? (
+                <FaqList entries={faqEntries} />
+              ) : resourceEntries.length > 0 ? (
+                <ResourceLinkList resources={resourceEntries} />
+              ) : typeof openItemValue === "string" && openItemValue ? (
+                <div dangerouslySetInnerHTML={{ __html: openItemValue }} />
+              ) : (
+                EMPTY_STATE
+              )}
             </Modal.Content>
             <Modal.Footer>
-              <Button onClick={() => setIsFirstStepsOpen(false)} labelClassName="modal-close-button-label">Close</Button>
+              <Button onClick={() => setOpenItemName(null)} labelClassName="modal-close-button-label">Okay</Button>
             </Modal.Footer>
           </Modal>
         )}
