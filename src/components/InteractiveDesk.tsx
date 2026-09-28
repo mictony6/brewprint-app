@@ -12,6 +12,10 @@ const DUST_PARTICLE_COUNT = 14
 const DUST_PARTICLE_NEAR_COUNT = 5
 const EMPTY_STATE = <p>Nothing here yet — check back soon.</p>
 
+function kebabToTitleCase(slug: string): string {
+  return slug.split("-").map((word) => word[0].toUpperCase() + word.slice(1)).join(" ")
+}
+
 function FaqList({ entries }: { entries: ReturnType<typeof parseFaqs> }) {
   if (entries.length === 0) return EMPTY_STATE
   return entries.map((faq) => (
@@ -122,7 +126,7 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
     <div className="desk-panel">
       <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>
       <div className="panel-group">
-        <h2>Interactive Desk</h2>
+        <h2>{kebabToTitleCase(careerKey)}</h2>
         <p>Welcome to your personal desk! <br/> Try clicking on an object.</p>
 
       </div>
