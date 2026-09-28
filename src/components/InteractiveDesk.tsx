@@ -6,6 +6,9 @@ import { useState } from "react";
 import type { CareerKitItem } from "../lib/careerKits"
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
 
+const DUST_PARTICLE_COUNT = 14
+const DUST_PARTICLE_NEAR_COUNT = 5
+
 export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { careerKey: string, careerKitItem: CareerKitItem | undefined, onBack: () => void }) {
   const positions = useDeskPositions()
   const [isFirstStepsOpen, setIsFirstStepsOpen] = useState(false)
@@ -17,6 +20,18 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
 
       <div className="indesk-background">
         <img id="desk-bg" src={deskBackground} alt="background" />
+
+        <div className="desk-particles" aria-hidden="true">
+          {Array.from({ length: DUST_PARTICLE_COUNT }).map((_, i) => (
+            <span key={i} className="desk-particle" />
+          ))}
+        </div>
+
+        <div className="desk-particles-near" aria-hidden="true">
+          {Array.from({ length: DUST_PARTICLE_NEAR_COUNT }).map((_, i) => (
+            <span key={i} className="desk-particle-near" />
+          ))}
+        </div>
 
         {deskItems.map((item) => {
           const pos = positions[item.name]
