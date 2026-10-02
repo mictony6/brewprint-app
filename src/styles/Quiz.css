@@ -442,7 +442,10 @@
   background: rgb(226 220 206);
   padding: 1rem;
   border-radius: 0.5rem;
-  max-width: 500px;
+}
+
+.panel-group :nth-child(1){
+  max-width: 200px;
 }
 #desk-bg{
   width: 100%;
