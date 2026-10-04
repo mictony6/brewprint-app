@@ -100,8 +100,10 @@ function Quiz() {
   }
 
   function viewDesk(){
+    const topResult = results ? getTopResult(results, maxScores) : null
     posthog.capture("desk_viewed", {
       quiz_attempt_id: attemptID.current,
+      career_slug: topResult ? topResult[0] : null,
     })
     setQuizCurrentState(QuizState.DESK)
   }
