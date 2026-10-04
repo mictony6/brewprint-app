@@ -1,75 +1,89 @@
-# React + TypeScript + Vite
+# Brewprint
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Brewprint is a career-matching quiz. Visitors answer a short set of questions, get matched to a career path, and are pointed to a free career kit and related resources. After the results, they can explore an interactive "desk" whose items link to further resources.
 
-Currently, two official plugins are available:
+The app is a React single-page widget that mounts into `#brewprint-root`, so it can be embedded in a host page (a Webflow site). Content for career kits and resources comes from the Webflow CMS, and usage is tracked with PostHog.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Quiz flow:** intro, questions with a progress bar, results, then the interactive desk. Progress is kept in `sessionStorage`, so a refresh doesn't lose your place.
+- **Scoring:** each answer option adds weighted points to one or more careers. Results are normalised against each career's maximum possible score (`src/lib/scoring.ts`).
+- **Career kits and resources:** fetched from Webflow through Cloudflare Pages Functions. The matched career's kit is shown on the results card.
+- **Interactive desk:** desk items are positioned from `src/data/deskPositions.json`.
+- **Analytics:** PostHog events for the quiz funnel, desk views, resource and career-kit clicks, and optional demographics (age bracket, employment status, region). Each run gets a `quiz_attempt_id`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech stack
 
-## Expanding the ESLint configuration
+- React 19, TypeScript, Vite
+- Cloudflare Pages and Pages Functions (Wrangler for local dev)
+- Webflow CMS (`webflow-api`)
+- PostHog (`posthog-js`, `@posthog/react`)
+- lucide-react icons
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Requires Node.js and npm.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Create a `.env` file in the project root:
 
 ```
+VITE_POSTHOG_PROJECT_TOKEN=<your PostHog project token>
+VITE_POSTHOG_HOST=<PostHog API host, e.g. /ingest to use the built-in proxy>
+```
+
+The Pages Functions need a server-side secret, set in the Cloudflare Pages dashboard (or a `.dev.vars` file for local use):
+
+```
+WEBFLOW_CMS=<Webflow API access token>
+```
+
+### Scripts
+
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Vite dev server only. Webflow-backed endpoints (`/api/*`) are not available. |
+| `npm run dev:full` | Runs Vite behind `wrangler pages dev`, so the Pages Functions work locally. |
+| `npm run build` | Type-checks (`tsc -b`) and builds to `dist/`. |
+| `npm run lint` | Runs ESLint. |
+| `npm run preview` | Serves the production build locally. |
+
+## Project structure
+
+```
+functions/
+  api/                 Pages Functions that read from the Webflow CMS
+                       (collections, resources, career-kits, career-kit-item)
+  ingest/[[path]].ts   Reverse proxy to PostHog, to avoid ad blockers
+src/
+  components/          Quiz, question/results cards, desk, demographics panel, debug tools
+  data/                questions.json, careers.json, deskPositions.json
+  lib/                 scoring, analytics, Webflow fetch helpers, desk item logic
+  styles/ and *.css    Styling
+  types/               Shared TypeScript types
+```
+
+## Editing quiz content
+
+- **Questions:** edit `src/data/questions.json`. Each option has a `label`, an `icon`, and a `scores` map of career slug to points.
+- **Careers:** edit `src/data/careers.json`. Each entry has a `name`, a `slug` (which must match the career kit's slug in Webflow), and a `blurb` for the results card. Any career used in a `scores` map must exist here.
+
+## Dev-only tools
+
+These only appear under `npm run dev` and are not included in production builds.
+
+- **Debug career switch:** previews the results for any career without taking the quiz.
+- **Desk position editor:** drag and resize desk items, and save the layout directly to `src/data/deskPositions.json` (via a dev-only Vite middleware at `/api/desk-positions`).
+
+## Deployment
+
+Deployed on Cloudflare Pages at `https://brewprint-app.pages.dev/`. `vite.config.ts` sets `base` to that URL so assets resolve when the build is embedded elsewhere. The build also emits `head-links.json`, a manifest of external `<link>` tags from `index.html` (such as Google Fonts), so the host page's loader can inject them into its own `<head>`.
+
+## Styling notes
+
+Base styles are scoped with `:where(#brewprint-root)`, so they don't out-rank plain class overrides, and the widget's styles stay isolated from the host page.
