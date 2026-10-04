@@ -1,25 +1,39 @@
-import { RotateCcw } from "lucide-react"
+import { useState } from "react"
+import { RotateCcw, Mail} from "lucide-react"
 import type { Career } from "../types/quiz"
 import Button from "./Button"
-const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
+import DemographicsPanel from "./DemographicsPanel"
+const homebrewCareerKitsLoc = "https://homebrew-e62593.webflow.io/career-kits/"
+const homebrewNewsletterLoc = "https://homebrew-e62593.webflow.io/subscribe"
 function QuizResultsCard({career, onRestart, onViewDesk} : QuizResultsCardPropTypes){
+    const [showDemographics, setShowDemographics] = useState(
+        sessionStorage.getItem("demographicsPanelDismissed") !== "true"
+    )
 
     return(
         <div className="quiz-card">
             <div className="quiz-content">
+                <span className="brewprint-eyebrow">Results</span>
                 <h1 className="result-career-name">
                 {career.name}
                 </h1>
                 <p className="result-blurb">
                 {career.blurb}
                 </p>
-                <a href={homebrewLoc+career.slug} target="_self" className="read-more-anchor" >Read more...</a>
+                <div className="result-links">
+                    <a href={homebrewCareerKitsLoc+career.slug} target="_self" className="read-more-anchor" >Read more...</a>
+
+                    <a href={homebrewNewsletterLoc+"?ref=brewprint"} target="_self" className="read-more-anchor" >Subscribe to Newsletter <Mail size={24}/></a>
+                </div>
+
+                {showDemographics && (
+                    <DemographicsPanel onDismiss={() => setShowDemographics(false)} />
+                )}
+
             </div>
             <div className="result-buttons">
-
-                {/* <Button onClick={() => window.location.href = homebrewLoc + career.slug} variant= "secondary" labelClassName="quiz-restart-button-label" > Read More</Button> */}
                 <Button onClick = {onRestart} variant="secondary" className="icon-button" aria-label="Restart">
-                    <RotateCcw size={20} />
+                    <RotateCcw size={24} />
                 </Button>
                 <Button onClick = {onViewDesk} variant="primary" labelClassName="quiz-restart-button-label">View Interactive Desk</Button>
             </div>

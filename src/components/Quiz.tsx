@@ -10,6 +10,7 @@ import { getCareerList, computeMaxScores, computeScores, getTopResult } from '..
 import { fetchCareerKitBySlug, type CareerKitItem } from '../lib/careerKits'
 import ProgressBar from './ProgressBar'
 import InteractiveDesk from './InteractiveDesk'
+import { posthog } from 'posthog-js'
 
 
 const typedQuestions = questions as Question[]
@@ -47,12 +48,17 @@ function getInitialResults(): Map<string, number> | null {
   return computeScores(getInitialAnswers(), careerList)
 }
 
+function getInitialAttemptID(): string | null {
+  return sessionStorage.getItem("brewprintAttemptID")
+}
+
 function Quiz() {
   const [quizCurrentState, setQuizCurrentState]  = useState<QuizState>(getInitialQuizState)
   const [questionIndex, setQuestionIndex] = useState(getInitialQuestionIndex)
   const [results, setResults] = useState<Map<string, number> | null>(getInitialResults)
   const [careerKitItem, setCareerKitItem] = useState<CareerKitItem | undefined>(undefined)
   const answers = useRef<Array<QuestionOption>>(getInitialAnswers())
+  const attemptID = useRef<string | null>(getInitialAttemptID())
 
   useEffect(()=>{
     sessionStorage.setItem("quizState", quizCurrentState)
@@ -68,6 +74,15 @@ function Quiz() {
   }, [results])
 
   function onStartButtonClick(){
+    const isRestart = sessionStorage.getItem("hasStartedQuiz") === "true"
+    attemptID.current = crypto.randomUUID()
+    sessionStorage.setItem("brewprintAttemptID", attemptID.current)
+    sessionStorage.setItem("hasStartedQuiz", "true")
+
+    posthog.capture("quiz_started", {
+      quiz_attempt_id: attemptID.current,
+      is_restart: isRestart,
+    })
     setQuizCurrentState(QuizState.STARTED)
   }
 
@@ -77,21 +92,37 @@ function Quiz() {
     if (option){
       answers.current.push(option)
     }
+    posthog.capture("quiz_question_answered", {
+      quiz_attempt_id: attemptID.current,
+      question_index: questionIndex,
+      question_id: question.id,
+    })
     nextQuestion()
   }
 
   function viewDesk(){
+    posthog.capture("desk_viewed", {
+      quiz_attempt_id: attemptID.current,
+    })
     setQuizCurrentState(QuizState.DESK)
   }
 
   function leaveDesk(){
     setQuizCurrentState(QuizState.RESULTS)
-  }
+  } 
 
   function nextQuestion(){
     const nextIndex = questionIndex + 1
     if (nextIndex >= typedQuestions.length){
-      setResults(computeScores(answers.current, careerList))
+      const finalResults = computeScores(answers.current, careerList)
+      const topResult:[string, number] = getTopResult(finalResults, maxScores)
+
+      posthog.capture("quiz_completed", {
+        quiz_attempt_id: attemptID.current,
+        top_career: topResult[0],
+      })
+
+      setResults(finalResults)
       setQuizCurrentState(QuizState.RESULTS)
       return
     }

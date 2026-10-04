@@ -34,6 +34,13 @@
 
 }
 
+@media (max-width: 640px) {
+    .quiz-section{
+        max-height: none;
+        justify-content: flex-start;
+    }
+}
+
 
 
 
