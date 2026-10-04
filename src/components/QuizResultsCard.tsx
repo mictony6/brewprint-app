@@ -3,12 +3,22 @@ import { RotateCcw, Mail} from "lucide-react"
 import type { Career } from "../types/quiz"
 import Button from "./Button"
 import DemographicsPanel from "./DemographicsPanel"
+import { getAttemptID, trackCareerKitClickthrough } from "../lib/analytics"
+import { posthog } from "posthog-js"
 const homebrewCareerKitsLoc = "https://homebrew-e62593.webflow.io/career-kits/"
 const homebrewNewsletterLoc = "https://homebrew-e62593.webflow.io/subscribe"
 function QuizResultsCard({career, onRestart, onViewDesk} : QuizResultsCardPropTypes){
     const [showDemographics, setShowDemographics] = useState(
         sessionStorage.getItem("demographicsPanelDismissed") !== "true"
     )
+
+    function trackNewsLetterClick(careerSlug: string){
+        const attemptID = getAttemptID()
+        posthog.capture("brewprint_newsletter_clicked", {
+            quiz_attempt_id: attemptID,
+            career_slug: careerSlug
+        }, { transport: "sendBeacon" })
+    }
 
     return(
         <div className="quiz-card">
@@ -21,9 +31,9 @@ function QuizResultsCard({career, onRestart, onViewDesk} : QuizResultsCardPropTy
                 {career.blurb}
                 </p>
                 <div className="result-links">
-                    <a href={homebrewCareerKitsLoc+career.slug} target="_self" className="read-more-anchor" >Read more...</a>
+                    <a href={homebrewCareerKitsLoc+career.slug+"?ref=brewprint"} target="_self" onClick={()=>trackCareerKitClickthrough(career.slug, "results")} className="read-more-anchor" >Read more...</a>
 
-                    <a href={homebrewNewsletterLoc+"?ref=brewprint"} target="_self" className="read-more-anchor" >Subscribe to Newsletter <Mail size={24}/></a>
+                    <a href={homebrewNewsletterLoc+"?ref=brewprint"} target="_self" className="read-more-anchor" onClick={()=>trackNewsLetterClick(career.slug)} >Subscribe to Newsletter <Mail size={24}/></a>
                 </div>
 
                 {showDemographics && (

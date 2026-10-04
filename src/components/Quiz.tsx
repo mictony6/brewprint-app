@@ -11,6 +11,7 @@ import { fetchCareerKitBySlug, type CareerKitItem } from '../lib/careerKits'
 import ProgressBar from './ProgressBar'
 import InteractiveDesk from './InteractiveDesk'
 import { posthog } from 'posthog-js'
+import { clearSessionClickedItems, getAttemptID } from '../lib/analytics'
 
 
 const typedQuestions = questions as Question[]
@@ -48,17 +49,13 @@ function getInitialResults(): Map<string, number> | null {
   return computeScores(getInitialAnswers(), careerList)
 }
 
-function getInitialAttemptID(): string | null {
-  return sessionStorage.getItem("brewprintAttemptID")
-}
-
 function Quiz() {
   const [quizCurrentState, setQuizCurrentState]  = useState<QuizState>(getInitialQuizState)
   const [questionIndex, setQuestionIndex] = useState(getInitialQuestionIndex)
   const [results, setResults] = useState<Map<string, number> | null>(getInitialResults)
   const [careerKitItem, setCareerKitItem] = useState<CareerKitItem | undefined>(undefined)
   const answers = useRef<Array<QuestionOption>>(getInitialAnswers())
-  const attemptID = useRef<string | null>(getInitialAttemptID())
+  const attemptID = useRef<string | null>(getAttemptID())
 
   useEffect(()=>{
     sessionStorage.setItem("quizState", quizCurrentState)
@@ -78,11 +75,13 @@ function Quiz() {
     attemptID.current = crypto.randomUUID()
     sessionStorage.setItem("brewprintAttemptID", attemptID.current)
     sessionStorage.setItem("hasStartedQuiz", "true")
+    clearSessionClickedItems()
 
     posthog.capture("quiz_started", {
       quiz_attempt_id: attemptID.current,
       is_restart: isRestart,
     })
+
     setQuizCurrentState(QuizState.STARTED)
   }
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
 import { posthog } from 'posthog-js'
+import { getAttemptID } from '../lib/analytics'
 
 const AGE_BRACKETS = ["13-17", "18-24", "25-34", "35-44", "45+"]
 const EMPLOYMENT_STATUSES = ["Student", "Employed", "Unemployed", "Career Changer"]
@@ -12,7 +13,7 @@ function DemographicsPanel({ onDismiss }: DemographicsPanelProps) {
   const [region, setRegion] = useState<string | null>(null)
 
   function handleDismiss() {
-    const attemptID = sessionStorage.getItem("brewprintAttemptID")
+    const attemptID = getAttemptID()
     posthog.capture("demographics_provided", {
       quiz_attempt_id: attemptID,
       age_bracket: ageBracket ?? null,

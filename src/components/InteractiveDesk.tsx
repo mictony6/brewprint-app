@@ -2,10 +2,12 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { deskBackground, deskItems } from "../lib/deskItems"
 import { useDeskPositions } from "../lib/deskPositionsStore"
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { CareerKitItem } from "../lib/careerKits"
 import { fetchResources, type ResourceItem } from "../lib/resources"
 import { parseFaqs } from "../lib/parseFaqs"
+import { getAttemptID, getSessionClickedItems, trackCareerKitClickthrough } from "../lib/analytics";
+import { posthog } from "posthog-js";
 const homebrewLoc = "https://homebrew-e62593.webflow.io/career-kits/"
 
 const DUST_PARTICLE_COUNT = 14
@@ -35,15 +37,41 @@ function ResourceLinkList({ resources }: { resources: ResourceItem[] }) {
   )
 }
 
+function handleResourceClick(resource: ResourceItem){
+  posthog.capture("desk_resource_clicked", {
+    quiz_attempt_id: getAttemptID(),
+    career_resource_name: resource.fieldData.name || null,
+    career_resource_id: resource.id
+  })
+}
+
 function ResourceLink({ resource }: { resource: ResourceItem }) {
   if (!resource.fieldData.link) return <li>{resource.fieldData.name}</li>
-  return <li><a href={resource.fieldData.link} target="_blank" rel="noreferrer">{resource.fieldData.name}</a></li>
+  return <li><a href={resource.fieldData.link} target="_blank" onClick={() => handleResourceClick(resource)} rel="noreferrer">{resource.fieldData.name}</a></li>
 }
+
+
 
 export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { careerKey: string, careerKitItem: CareerKitItem | undefined, onBack: () => void }) {
   const positions = useDeskPositions()
   const [openItemName, setOpenItemName] = useState<string | null>(null)
   const [resources, setResources] = useState<ResourceItem[]>([])
+  const clickedItems = useRef<Set<string>>(getSessionClickedItems())
+
+  function handleDeskItemClick(itemName:string){
+    setOpenItemName(itemName)
+
+    if (!clickedItems.current.has(itemName)) {
+      clickedItems.current.add(itemName)
+      sessionStorage.setItem("deskClickedItems", JSON.stringify([...clickedItems.current]))
+
+      posthog.capture("desk_item_clicked", {
+        item_name: itemName,
+        career_slug:careerKey,
+        quiz_attempt_id: getAttemptID(),
+      })
+    }
+  }
 
   useEffect(() => {
     fetchResources().then(setResources)
@@ -93,7 +121,7 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
                 className="desk-item"
                 data-item={item.name}
                 style={{ width: "100%", height: "100%", cursor: "pointer" }}
-                onClick={() => setOpenItemName(item.name)}
+                onClick={() => handleDeskItemClick(item.name)}
               />
             </div>
           )
@@ -130,7 +158,7 @@ export default function InteractiveDesk({ careerKey, careerKitItem, onBack }: { 
         <p>Welcome to your personal desk! <br/> Try clicking on an object.</p>
 
       </div>
-      <a href={homebrewLoc+careerKey} target="_self" className="read-more-anchor" >Read more...</a>
+      <a href={homebrewLoc+careerKey+"?ref=brewprint"} target="_self" onClick={()=>trackCareerKitClickthrough(careerKey, "desk")} className="read-more-anchor" >Read more...</a>
     </div>
     <div className="desk-controls">
       <Button onClick={onBack} labelClassName="quiz-start-button-label">Back</Button>
